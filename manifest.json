@@ -1,0 +1,20 @@
+[
+  {
+    "guid": "5c7f5f3b-2d6f-4b2f-9c34-9d6b8f1f2f10",
+    "name": "URL Importer (CopyCase)",
+    "description": "Pobiera pliki z URL i dodaje do biblioteki Jellyfin; obs\u0142uguje logowanie do copycase.com i utrzymanie sesji.",
+    "overview": "Importer plik\u00f3w z sieci do Jellyfin (HTTP/HTTPS) z logowaniem do CopyCase i trwa\u0142\u0105 sesj\u0105 cookies.",
+    "owner": "ngsolutions-ng",
+    "category": "Library",
+    "imageUrl": "https://raw.githubusercontent.com/ngsolutions-ng/jallyfin-copycase-plugin/main/static/icon.png",
+    "versions": [
+      {
+        "version": "1.0.0",
+        "targetAbi": "10.9.0.0",
+        "sourceUrl": "https://github.com/ngsolutions-ng/jallyfin-copycase-plugin/releases/download/v1.0.0/jellyfin-url-importer-copycase.zip",
+        "checksum": "c9d9aeb7d4508acff7cf090d8816aa5518fdd73f6c49e76aff4156061b00fb10",
+        "timestamp": "2025-09-20T13:31:43Z"
+      }
+    ]
+  }
+]
