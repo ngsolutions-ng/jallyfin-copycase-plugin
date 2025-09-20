@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>URL Importer – konfiguracja</title>
+</head>
+<body>
+  <div data-role="page" class="page type-interior pluginConfigurationPage urlImporterConfig" data-require="emby-input,emby-button,emby-checkbox">
+    <div data-role="content">
+      <div class="content-primary">
+        <form id="urlImporterForm">
+          <h2>URL Importer – konfiguracja</h2>
+
+          <div class="inputContainer">
+            <label class="inputLabel" for="DestinationFolder">Folder docelowy (musi być folderem biblioteki)</label>
+            <input id="DestinationFolder" name="DestinationFolder" type="text" is="emby-input" />
+          </div>
+
+          <div class="inputContainer">
+            <label class="inputLabel" for="Urls">Lista URL (po jednym w linii)</label>
+            <textarea id="Urls" name="Urls" is="emby-input" rows="8" placeholder="https://.../plik1.mp4
+https://.../plik2.mkv"></textarea>
+          </div>
+
+          <div class="inputContainer">
+            <label><input is="emby-checkbox" type="checkbox" id="OverwriteIfExists"> Nadpisuj istniejące pliki</label>
+          </div>
+
+          <div class="inputContainer">
+            <label><input is="emby-checkbox" type="checkbox" id="TriggerLibraryScan" checked> Wymuś skan po pobraniu</label>
+          </div>
+
+          <!-- COPYCASE -->
+          <fieldset style="margin-top:1rem;padding:1rem;border:1px solid #ccc;border-radius:8px;">
+            <legend>CopyCase (opcjonalnie)</legend>
+            <div class="inputContainer">
+              <label><input is="emby-checkbox" type="checkbox" id="CopyCaseEnabled"> Włącz logowanie do copycase.com</label>
+            </div>
+            <div class="inputContainer">
+              <label class="inputLabel" for="CopyCaseUsername">CopyCase – użytkownik</label>
+              <input id="CopyCaseUsername" name="CopyCaseUsername" type="text" is="emby-input" />
+            </div>
+            <div class="inputContainer">
+              <label class="inputLabel" for="CopyCasePassword">CopyCase – hasło</label>
+              <input id="CopyCasePassword" name="CopyCasePassword" type="password" is="emby-input" />
+            </div>
+            <div class="inputContainer">
+              <label class="inputLabel" for="CopyCaseLoginUrl">CopyCase – URL logowania (formularz)</label>
+              <input id="CopyCaseLoginUrl" name="CopyCaseLoginUrl" type="text" is="emby-input" value="https://copycase.com/login" />
+            </div>
+            <div class="inputContainer">
+              <label class="inputLabel" for="CopyCaseApiLoginUrl">CopyCase – URL API logowania</label>
+              <input id="CopyCaseApiLoginUrl" name="CopyCaseApiLoginUrl" type="text" is="emby-input" value="https://copycase.com/api/login" />
+            </div>
+          </fieldset>
+
+          <button is="emby-button" type="submit" class="raised button-submit"><span>Zapisz</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    (function(){
+      const pluginId = '5c7f5f3b-2d6f-4b2f-9c34-9d6b8f1f2f10';
+
+      function loadConfig() {
+        ApiClient.getPluginConfiguration(pluginId).then(cfg => {
+          DestinationFolder.value = cfg.DestinationFolder || '';
+          Urls.value = (cfg.Urls || []).join('\n');
+          OverwriteIfExists.checked = !!cfg.OverwriteIfExists;
+          TriggerLibraryScan.checked = cfg.TriggerLibraryScan !== false;
+
+          CopyCaseEnabled.checked = !!cfg.CopyCaseEnabled;
+          CopyCaseUsername.value = cfg.CopyCaseUsername || '';
+          CopyCasePassword.value = cfg.CopyCasePassword || '';
+          CopyCaseLoginUrl.value = cfg.CopyCaseLoginUrl || 'https://copycase.com/login';
+          CopyCaseApiLoginUrl.value = cfg.CopyCaseApiLoginUrl || 'https://copycase.com/api/login';
+        });
+      }
+
+      document.querySelector('.urlImporterConfig').addEventListener('pageshow', loadConfig);
+
+      document.getElementById('urlImporterForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        ApiClient.getPluginConfiguration(pluginId).then(cfg => {
+          cfg.DestinationFolder = DestinationFolder.value.trim();
+          cfg.Urls = Urls.value.split(/\n+/).map(s => s.trim()).filter(Boolean);
+          cfg.OverwriteIfExists = OverwriteIfExists.checked;
+          cfg.TriggerLibraryScan = TriggerLibraryScan.checked;
+
+          cfg.CopyCaseEnabled = CopyCaseEnabled.checked;
+          cfg.CopyCaseUsername = CopyCaseUsername.value.trim();
+          cfg.CopyCasePassword = CopyCasePassword.value;
+          cfg.CopyCaseLoginUrl = CopyCaseLoginUrl.value.trim();
+          cfg.CopyCaseApiLoginUrl = CopyCaseApiLoginUrl.value.trim();
+
+          ApiClient.updatePluginConfiguration(pluginId, cfg).then(Dashboard.processPluginConfigurationUpdateResult);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
