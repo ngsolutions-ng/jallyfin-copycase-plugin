@@ -1,0 +1,1 @@
+# jallyfin-copycase-plugin
