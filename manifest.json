@@ -11,7 +11,7 @@
       {
         "version": "1.0.0",
         "targetAbi": "10.9.0.0",
-        "sourceUrl": "https://github.com/ngsolutions-ng/jallyfin-copycase-plugin/releases/download/v1.0.0/jellyfin-url-importer-copycase.zip",
+        "sourceUrl": "https://github.com/ngsolutions-ng/jallyfin-copycase-plugin/blob/main/jellyfin-url-importer-copycase.zip",
         "checksum": "c9d9aeb7d4508acff7cf090d8816aa5518fdd73f6c49e76aff4156061b00fb10",
         "timestamp": "2025-09-20T13:31:43Z"
       }
